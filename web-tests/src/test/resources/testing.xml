@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Sauce Demo Complete Test Suite" parallel="classes" thread-count="3">
+    <test name="Standard User Tests">
+        <parameter name="userType" value="STANDARD_USER"/>
+        <classes>
+            <class name="com.automation.web.tests.LoginTest"/>
+            <class name="com.automation.web.tests.InventoryTest"/>
+            <class name="com.automation.web.tests.ItemDetailTest"/>
+            <class name="com.automation.web.tests.CartTest"/>
+            <class name="com.automation.web.tests.CheckoutTest"/>
+        </classes>
+    </test>
+
+    <!-- Problem User -->
+    <test name="Problem User Tests">
+        <parameter name="userType" value="PROBLEM_USER"/>
+        <classes>
+            <class name="com.automation.web.tests.LoginTest"/>
+            <class name="com.automation.web.tests.InventoryTest"/>
+            <class name="com.automation.web.tests.ItemDetailTest"/>
+            <class name="com.automation.web.tests.CartTest"/>
+            <class name="com.automation.web.tests.CheckoutTest"/>
+        </classes>
+    </test>
+
+    <!-- Performance User -->
+    <test name="Performance User Tests">
+        <parameter name="userType" value="PERFORMANCE_GLITCH_USER"/>
+        <classes>
+            <class name="com.automation.web.tests.LoginTest"/>
+            <class name="com.automation.web.tests.InventoryTest"/>
+            <class name="com.automation.web.tests.ItemDetailTest"/>
+            <class name="com.automation.web.tests.CartTest"/>
+            <class name="com.automation.web.tests.CheckoutTest"/>
+        </classes>
+    </test>
+
+    <!-- Error User -->
+    <test name="Error User Tests">
+        <parameter name="userType" value="ERROR_USER"/>
+        <classes>
+            <class name="com.automation.web.tests.LoginTest"/>
+            <class name="com.automation.web.tests.InventoryTest"/>
+            <class name="com.automation.web.tests.ItemDetailTest"/>
+            <class name="com.automation.web.tests.CartTest"/>
+            <class name="com.automation.web.tests.CheckoutTest"/>
+        </classes>
+    </test>
+
+    <!-- Visual User -->
+    <test name="Visual User Tests">
+        <parameter name="userType" value="VISUAL_USER"/>
+        <classes>
+            <class name="com.automation.web.tests.LoginTest"/>
+            <class name="com.automation.web.tests.InventoryTest"/>
+            <class name="com.automation.web.tests.ItemDetailTest"/>
+            <class name="com.automation.web.tests.CartTest"/>
+            <class name="com.automation.web.tests.CheckoutTest"/>
+        </classes>
+    </test>
+
+</suite>
