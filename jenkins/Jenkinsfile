@@ -14,9 +14,14 @@ pipeline {
                 // Clean workspace before checkout
                 cleanWs()
 
-                // Checkout from Git
-                git branch: 'master',
-                    url: 'https://github.com/adibangkai/qa-automation-revou'  // Replace with your repo URL
+                // Checkout with credentials
+                checkout([$class: 'GitSCM',
+                    branches: [[name: '*/master']],
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/adibangkai/qa-automation-revou',
+                        credentialsId: 'github-credentials'
+                    ]]
+                ])
             }
         }
 
@@ -38,8 +43,8 @@ pipeline {
             }
             post {
                 always {
-                    junit 'api-tests/target/surefire-reports/*.xml'
-                    cucumber 'api-tests/target/cucumber-reports/CucumberTestReport.json'
+                    junit '**/target/surefire-reports/*.xml'
+                    cucumber '**/target/cucumber-reports/CucumberTestReport.json'
                 }
             }
         }
@@ -56,7 +61,7 @@ pipeline {
             }
             post {
                 always {
-                    junit 'web-tests/target/surefire-reports/*.xml'
+                    junit '**/target/surefire-reports/*.xml'
                 }
             }
         }
@@ -73,8 +78,8 @@ pipeline {
             }
             post {
                 always {
-                    junit 'mobile-tests/target/surefire-reports/*.xml'
-                    cucumber 'mobile-tests/target/cucumber-reports/mobile/cucumber.json'
+                    junit '**/target/surefire-reports/*.xml'
+                    cucumber '**/target/cucumber-reports/mobile/cucumber.json'
                 }
             }
         }
@@ -82,7 +87,6 @@ pipeline {
 
     post {
         always {
-            // Archive test results
             archiveArtifacts artifacts: '**/target/cucumber-reports/**/*', allowEmptyArchive: true
         }
     }
