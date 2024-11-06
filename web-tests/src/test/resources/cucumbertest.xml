@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Sauce Demo Cucumber Test Suite" parallel="tests" thread-count="5">
+
+    <test name="LOCKED User Tests">
+        <parameter name="userType" value="LOCKED_OUT_USER"/>
+        <classes>
+            <class name="com.automation.web.cucumber.TestRunner"/>
+        </classes>
+    </test>
+
+<!--    <test name="Performance User Tests">-->
+<!--        <parameter name="userType" value="PERFORMANCE_GLITCH_USER"/>-->
+<!--        <classes>-->
+<!--            <class name="com.automation.web.cucumber.TestRunner"/>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="Problem User Tests">-->
+<!--        <parameter name="userType" value="PROBLEM_USER"/>-->
+<!--        <classes>-->
+<!--            <class name="com.automation.web.cucumber.TestRunner"/>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="Error User Tests">-->
+<!--        <parameter name="userType" value="ERROR_USER"/>-->
+<!--        <classes>-->
+<!--            <class name="com.automation.web.cucumber.TestRunner"/>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="Visual User Tests">-->
+<!--        <parameter name="userType" value="VISUAL_USER"/>-->
+<!--        <classes>-->
+<!--            <class name="com.automation.web.cucumber.TestRunner"/>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+</suite>

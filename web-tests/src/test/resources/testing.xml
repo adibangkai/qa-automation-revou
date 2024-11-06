@@ -9,6 +9,7 @@
             <class name="com.automation.web.tests.ItemDetailTest"/>
             <class name="com.automation.web.tests.CartTest"/>
             <class name="com.automation.web.tests.CheckoutTest"/>
+            <class name="com.automation.web.tests.VisualLayoutTest"/>
         </classes>
     </test>
 
@@ -21,6 +22,7 @@
             <class name="com.automation.web.tests.ItemDetailTest"/>
             <class name="com.automation.web.tests.CartTest"/>
             <class name="com.automation.web.tests.CheckoutTest"/>
+            <class name="com.automation.web.tests.VisualLayoutTest"/>
         </classes>
     </test>
 
@@ -33,6 +35,7 @@
             <class name="com.automation.web.tests.ItemDetailTest"/>
             <class name="com.automation.web.tests.CartTest"/>
             <class name="com.automation.web.tests.CheckoutTest"/>
+            <class name="com.automation.web.tests.VisualLayoutTest"/>
         </classes>
     </test>
 
@@ -57,6 +60,7 @@
             <class name="com.automation.web.tests.ItemDetailTest"/>
             <class name="com.automation.web.tests.CartTest"/>
             <class name="com.automation.web.tests.CheckoutTest"/>
+            <class name="com.automation.web.tests.VisualLayoutTest"/>
         </classes>
     </test>
 

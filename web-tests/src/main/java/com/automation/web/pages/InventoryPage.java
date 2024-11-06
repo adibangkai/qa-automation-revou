@@ -3,6 +3,9 @@ package com.automation.web.pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.Rectangle;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Point;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,6 +52,7 @@ public class InventoryPage extends BasePage {
 
     @FindBy(id = "reset_sidebar_link")
     private WebElement resetLink;
+
 
     public InventoryPage(WebDriver driver) {
         super(driver);
@@ -256,6 +260,22 @@ public class InventoryPage extends BasePage {
             return itemImages.get(index).getAttribute("src");
         }
         return null;
+    }
+
+
+    /**
+     * Get the position of the shopping cart icon
+     */
+    public Point getShoppingCartPosition() {
+        return shoppingCartLink.getLocation();
+    }
+
+    /**
+     * Get the bounds of the header container
+     */
+    public Rectangle getHeaderBounds() {
+        WebElement header = driver.findElement(By.id("header_container"));
+        return header.getRect();
     }
 
     /**
