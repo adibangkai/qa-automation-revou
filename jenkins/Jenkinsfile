@@ -11,15 +11,15 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Clean workspace before checkout
-                cleanWs()
+                // Clean workspace using deleteDir
+                deleteDir()
 
                 // Checkout with credentials
                 checkout([$class: 'GitSCM',
                     branches: [[name: '*/master']],
                     userRemoteConfigs: [[
                         url: 'https://github.com/adibangkai/qa-automation-revou',
-                        credentialsId: 'github-credentials'
+                        credentialsId: 'git-credentials'
                     ]]
                 ])
             }
@@ -88,6 +88,9 @@ pipeline {
     post {
         always {
             archiveArtifacts artifacts: '**/target/cucumber-reports/**/*', allowEmptyArchive: true
+
+            // Clean workspace after build
+            deleteDir()
         }
     }
 }
