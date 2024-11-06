@@ -1,0 +1,34 @@
+FROM eclipse-temurin:17-jdk-focal
+
+# Install necessary packages
+RUN apt-get update && apt-get install -y \
+    wget \
+    unzip \
+    curl \
+    gnupg \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Chrome
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+    && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/sources.list.d/google.list \
+    && apt-get update \
+    && apt-get install -y google-chrome-stable \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Maven
+ENV MAVEN_VERSION 3.9.6
+RUN curl -fsSL https://apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz | tar xzf - -C /usr/share \
+    && mv /usr/share/apache-maven-${MAVEN_VERSION} /usr/share/maven \
+    && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
+
+ENV MAVEN_HOME /usr/share/maven
+
+WORKDIR /automation/web-tests
+
+COPY web-tests/pom.xml .
+COPY web-tests/src ./src
+
+# Set display port to avoid crash
+ENV DISPLAY=:99
+
+CMD ["mvn", "clean", "test"]
