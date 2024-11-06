@@ -1,31 +1,25 @@
 pipeline {
     agent any
 
+    tools {
+        maven 'maven'
+        jdk 'JDK17'
+    }
+
     parameters {
         booleanParam(name: 'RUN_API_TESTS', defaultValue: true, description: 'Run API Tests')
         booleanParam(name: 'RUN_WEB_TESTS', defaultValue: true, description: 'Run Web Tests')
         booleanParam(name: 'RUN_MOBILE_TESTS', defaultValue: false, description: 'Run Mobile Tests')
-        choice(name: 'TEST_ENV', choices: ['qa', 'staging', 'prod'], description: 'Test Environment')
     }
 
     stages {
         stage('Checkout') {
             steps {
-                // Clean workspace using deleteDir
-                deleteDir()
-
-                // Checkout with credentials
-                checkout([$class: 'GitSCM',
-                    branches: [[name: '*/master']],
-                    userRemoteConfigs: [[
-                        url: 'https://github.com/adibangkai/qa-automation-revou',
-                        credentialsId: 'git-credentials'
-                    ]]
-                ])
+                checkout scm
             }
         }
 
-        stage('Build') {
+        stage('Build Project') {
             steps {
                 sh 'mvn clean install -DskipTests'
             }
@@ -34,17 +28,16 @@ pipeline {
         stage('API Tests') {
             when { expression { params.RUN_API_TESTS } }
             steps {
-                script {
-                    sh """
-                        cd api-tests
-                        mvn clean test -Denv=${params.TEST_ENV}
-                    """
+                dir('api-tests') {
+                    sh 'mvn clean test'
                 }
             }
             post {
                 always {
-                    junit '**/target/surefire-reports/*.xml'
-                    cucumber '**/target/cucumber-reports/CucumberTestReport.json'
+                    cucumber buildStatus: 'UNSTABLE',
+                            reportTitle: 'API Test Report',
+                            fileIncludePattern: '**/cucumber.json',
+                            jsonReportDirectory: 'target/cucumber-reports'
                 }
             }
         }
@@ -52,11 +45,8 @@ pipeline {
         stage('Web Tests') {
             when { expression { params.RUN_WEB_TESTS } }
             steps {
-                script {
-                    sh """
-                        cd web-tests
-                        mvn clean test -Denv=${params.TEST_ENV}
-                    """
+                dir('web-tests') {
+                    sh 'mvn clean test'
                 }
             }
             post {
@@ -69,17 +59,16 @@ pipeline {
         stage('Mobile Tests') {
             when { expression { params.RUN_MOBILE_TESTS } }
             steps {
-                script {
-                    sh """
-                        cd mobile-tests
-                        mvn clean test -Denv=${params.TEST_ENV}
-                    """
+                dir('mobile-tests') {
+                    sh 'mvn clean test'
                 }
             }
             post {
                 always {
-                    junit '**/target/surefire-reports/*.xml'
-                    cucumber '**/target/cucumber-reports/mobile/cucumber.json'
+                    cucumber buildStatus: 'UNSTABLE',
+                            reportTitle: 'Mobile Test Report',
+                            fileIncludePattern: '**/cucumber.json',
+                            jsonReportDirectory: 'target/cucumber-reports/mobile'
                 }
             }
         }
@@ -88,9 +77,12 @@ pipeline {
     post {
         always {
             archiveArtifacts artifacts: '**/target/cucumber-reports/**/*', allowEmptyArchive: true
-
-            // Clean workspace after build
-            deleteDir()
+        }
+        success {
+            echo 'All tests completed successfully!'
+        }
+        failure {
+            echo 'Test execution failed. Please check the logs for details.'
         }
     }
 }
