@@ -34,7 +34,7 @@ pipeline {
             }
             post {
                 always {
-                    archiveArtifacts artifacts: 'target/cucumber-reports/**/*',
+                    archiveArtifacts artifacts: '**/cucumber-reports/CucumberTestReport.json, **/cucumber-reports/cucumber-pretty.html',
                                    allowEmptyArchive: true
                 }
             }
@@ -49,7 +49,7 @@ pipeline {
             }
             post {
                 always {
-                    archiveArtifacts artifacts: 'target/surefire-reports/**/*',
+                    archiveArtifacts artifacts: '**/cucumber-reports/cucumber-pretty.html, **/cucumber-reports/CucumberTestReport.json',
                                    allowEmptyArchive: true
                 }
             }
@@ -64,7 +64,7 @@ pipeline {
             }
             post {
                 always {
-                    archiveArtifacts artifacts: 'target/cucumber-reports/**/*',
+                    archiveArtifacts artifacts: '**/cucumber-reports/mobile/cucumber.html, **/cucumber-reports/mobile/cucumber.json',
                                    allowEmptyArchive: true
                 }
             }
