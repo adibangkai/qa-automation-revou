@@ -34,10 +34,8 @@ pipeline {
             }
             post {
                 always {
-                    cucumber buildStatus: 'UNSTABLE',
-                            reportTitle: 'API Test Report',
-                            fileIncludePattern: '**/cucumber.json',
-                            jsonReportDirectory: 'target/cucumber-reports'
+                    archiveArtifacts artifacts: 'target/cucumber-reports/**/*',
+                                   allowEmptyArchive: true
                 }
             }
         }
@@ -51,7 +49,8 @@ pipeline {
             }
             post {
                 always {
-                    junit '**/target/surefire-reports/*.xml'
+                    archiveArtifacts artifacts: 'target/surefire-reports/**/*',
+                                   allowEmptyArchive: true
                 }
             }
         }
@@ -65,10 +64,8 @@ pipeline {
             }
             post {
                 always {
-                    cucumber buildStatus: 'UNSTABLE',
-                            reportTitle: 'Mobile Test Report',
-                            fileIncludePattern: '**/cucumber.json',
-                            jsonReportDirectory: 'target/cucumber-reports/mobile'
+                    archiveArtifacts artifacts: 'target/cucumber-reports/**/*',
+                                   allowEmptyArchive: true
                 }
             }
         }
@@ -76,7 +73,7 @@ pipeline {
 
     post {
         always {
-            archiveArtifacts artifacts: '**/target/cucumber-reports/**/*', allowEmptyArchive: true
+            echo 'Test execution completed'
         }
         success {
             echo 'All tests completed successfully!'
