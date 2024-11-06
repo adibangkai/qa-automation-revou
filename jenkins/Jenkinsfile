@@ -11,7 +11,18 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                // Clean workspace before checkout
+                cleanWs()
+
+                // Checkout from Git
+                git branch: 'master',
+                    url: 'https://github.com/adibangkai/qa-automation-revou'  // Replace with your repo URL
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean install -DskipTests'
             }
         }
 
