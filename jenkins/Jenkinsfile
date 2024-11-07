@@ -72,10 +72,12 @@ pipeline {
         }
 
         stage('Web Tests') {
-            when { expression { params.RUN_WEB_TESTS } }
             steps {
                 dir('web-tests') {
                     sh '''
+                        echo "Checking Selenium Grid..."
+                        curl -v http://selenium-hub:4444/wd/hub/status
+
                         echo "Running Web Tests..."
                         mvn clean test
                     '''
@@ -84,22 +86,10 @@ pipeline {
             post {
                 always {
                     dir('web-tests') {
-                        archiveArtifacts(
-                            artifacts: 'target/cucumber-reports/**/*,target/surefire-reports/**/*',
-                            allowEmptyArchive: true,
-                            fingerprint: true
-                        )
-                        junit(
-                            allowEmptyResults: true,
-                            testResults: 'target/surefire-reports/*.xml'
-                        )
-       // Publish Cucumber reports
                         cucumber(
-                            buildStatus: 'UNSTABLE',
-                            reportTitle: 'API Test Report',
+                            reportTitle: 'Web Test Results',
                             fileIncludePattern: '**/cucumber.json',
-                            jsonReportDirectory: 'target/cucumber-reports',
-                            sortingMethod: 'ALPHABETICAL'
+                            jsonReportDirectory: 'target/cucumber-reports'
                         )
                     }
                 }
