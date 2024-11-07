@@ -104,9 +104,9 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.2</version>
                 <configuration>
-                    <includes>
-                        <include>**/*Runner.java</include>
-                    </includes>
+                    <systemPropertyVariables>
+                        <cucumber.junit.print.generated.classes.directory>target</cucumber.junit.print.generated.classes.directory>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
         </plugins>
