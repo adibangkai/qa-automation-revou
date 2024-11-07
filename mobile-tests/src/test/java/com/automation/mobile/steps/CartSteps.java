@@ -1,6 +1,5 @@
 package com.automation.mobile.steps;
 
-import com.automation.mobile.BaseSteps;
 import io.appium.java_client.android.AndroidDriver;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;

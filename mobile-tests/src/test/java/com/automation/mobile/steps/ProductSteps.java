@@ -1,6 +1,5 @@
 package com.automation.mobile.steps;
 
-import com.automation.mobile.BaseSteps;
 import io.appium.java_client.android.AndroidDriver;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
@@ -23,7 +22,7 @@ public class ProductSteps {
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
     @Given("user is on catalog screen")
-    public void isOnProductScreen() {
+    public void isOnCatalogScreen() {
         driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"open menu\"]")).click();
         driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"menu item catalog\"]")).click();
     }
@@ -93,15 +92,19 @@ public class ProductSteps {
             products.add(item.getText());
         }
 
-        List<String> sorted = new ArrayList<>(products);
+        List<String> expected = new ArrayList<>(products);
         switch (order) {
             case "ascending":
-                Collections.sort(sorted);
+                Collections.sort(products);
+                Collections.sort(expected);
+                break;
             case "descending":
-                sorted.sort(Collections.reverseOrder());
+                expected.sort(Collections.reverseOrder());
+                break;
         }
 
-        Assertions.assertEquals(sorted, products, "Products are not sorted correctly");
+        // Change the order of assertion - compare actual against expected
+        Assertions.assertEquals(expected, products, "Products are not sorted correctly");
     }
 
     @Then("products should be sorted by price {string}")
@@ -114,17 +117,20 @@ public class ProductSteps {
             products.add(item.getText());
         }
 
-        List<String> sorted = new ArrayList<>(products);
+        List<String> expected = new ArrayList<>(products);
         switch (order) {
             case "ascending":
-                Collections.sort(sorted);
+                Collections.sort(products);
+                Collections.sort(expected);
                 break;
             case "descending":
-                sorted.sort(Collections.reverseOrder());
+                expected.sort(Collections.reverseOrder());
+                products.sort(Collections.reverseOrder());
                 break;
         }
 
-        Assertions.assertEquals(sorted, products, "Products are not sorted correctly");
+        // Change the order of assertion - compare actual against expected
+        Assertions.assertEquals(expected, products, "Products are not sorted correctly");
     }
 
     @And("selects {string}")

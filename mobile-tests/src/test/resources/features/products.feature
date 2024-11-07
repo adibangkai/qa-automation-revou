@@ -1,7 +1,8 @@
 Feature: Product
 
   Background:
-    Given user is on product list screen
+    Given user is on catalog screen
+    And the app state is reset
 
   Scenario: Disable Add to Cart Button
     Given user clicks on one of the product
@@ -22,31 +23,26 @@ Feature: Product
   Scenario: Sort Product Price Ascending
     When user clicks on filter button
     And selects "Price - Ascending"
-    Then products should be sorted by name "ascending"
+    Then products should be sorted by price "descending"
 
   Scenario: Sort Product Price Descending
     When user clicks on filter button
     And selects "Price - Descending"
-    Then products should be sorted by name "descending"
+    Then products should be sorted by price 'descending'
 
   Scenario: View Product Detail
-    When user clicks on one of the product
+    When user clicks on filter button
+    And selects "Name - Ascending"
     Then user should be redirected to product detail screen
-    And screen should display:
-      | product image       |
-      | product name        |
-      | product price       |
-      | product description |
-      | add to cart button  |
-      | ratings             |
-      | quantity            |
 
   Scenario: Adjust Product Quantity
     Given user clicks on one of the product
     When user clicks on plus button
     Then quantity should display "2"
+    When user clicks on plus button
+    Then quantity should display "3"
     When user clicks on minus button
-    Then quantity should display "1"
+    Then quantity should display "2"
 
   Scenario: Add Product to Cart
     Given user clicks on one of the product

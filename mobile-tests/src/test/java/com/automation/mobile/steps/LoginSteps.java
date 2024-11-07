@@ -1,6 +1,5 @@
 package com.automation.mobile.steps;
 
-import com.automation.mobile.BaseSteps;
 import io.appium.java_client.android.AndroidDriver;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -12,7 +11,7 @@ public class LoginSteps {
     AndroidDriver driver = BaseSteps.getDriver();
 
     @Given("user is not logged in")
-    public void isLoggedOut() {
+    public void isLogOut() {
         driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"open menu\"]")).click();
         driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"menu item log out\"]")).click();
         driver.findElement(By.xpath("//android.widget.Button[@resource-id=\"android:id/button1\"]")).click();
