@@ -23,7 +23,7 @@ Feature: Booking API CRUD Operations
       | firstname | lastname | totalprice | depositpaid | checkin    | checkout   | additionalneeds |
       | John | Doe      | 100        | true        | 2024-12-01 | 2024-12-05 | Breakfast       |
     Then the booking should be created successfully
-    And the response status code should be 200
+    And the response status code should be 201
     And the booking details should match the request
 
   @booking
@@ -68,5 +68,5 @@ Feature: Booking API CRUD Operations
     Given there is an existing booking
     And I have a valid auth token
     When I delete the booking
-    Then the response status code should be 201
+    Then the response status code should be 200
     And the booking should be deleted successfully

@@ -136,8 +136,5 @@ pipeline {
         failure {
             echo 'Test execution failed. Please check the logs for details.'
         }
-        cleanup {
-            cleanWs()
-        }
     }
 }
