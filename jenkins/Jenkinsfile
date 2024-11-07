@@ -13,6 +13,13 @@ pipeline {
     }
 
     stages {
+        stage('Environment Check') {
+            steps {
+                sh 'java -version'
+                sh 'mvn -version'
+            }
+        }
+
         stage('Checkout') {
             steps {
                 checkout scm
@@ -38,12 +45,27 @@ pipeline {
             post {
                 always {
                     dir('api-tests') {
+                        // Archive the test artifacts
                         archiveArtifacts(
                             artifacts: 'target/cucumber-reports/**/*,target/surefire-reports/**/*',
                             allowEmptyArchive: true,
                             fingerprint: true
                         )
-                        junit 'target/surefire-reports/*.xml'
+
+                        // Publish JUnit results
+                        junit(
+                            allowEmptyResults: true,
+                            testResults: 'target/surefire-reports/*.xml'
+                        )
+
+                        // Publish Cucumber reports
+                        cucumber(
+                            buildStatus: 'UNSTABLE',
+                            reportTitle: 'API Test Report',
+                            fileIncludePattern: '**/cucumber.json',
+                            jsonReportDirectory: 'target/cucumber-reports',
+                            sortingMethod: 'ALPHABETICAL'
+                        )
                     }
                 }
             }
@@ -53,16 +75,25 @@ pipeline {
             when { expression { params.RUN_WEB_TESTS } }
             steps {
                 dir('web-tests') {
-                    sh 'mvn clean test'
+                    sh '''
+                        echo "Running Web Tests..."
+                        mvn clean test
+                    '''
                 }
             }
             post {
                 always {
-                    archiveArtifacts(
-                        artifacts: 'web-tests/target/cucumber-reports/**/*',
-                        allowEmptyArchive: true,
-                        fingerprint: true
-                    )
+                    dir('web-tests') {
+                        archiveArtifacts(
+                            artifacts: 'target/cucumber-reports/**/*,target/surefire-reports/**/*',
+                            allowEmptyArchive: true,
+                            fingerprint: true
+                        )
+                        junit(
+                            allowEmptyResults: true,
+                            testResults: 'target/surefire-reports/*.xml'
+                        )
+                    }
                 }
             }
         }
@@ -71,16 +102,25 @@ pipeline {
             when { expression { params.RUN_MOBILE_TESTS } }
             steps {
                 dir('mobile-tests') {
-                    sh 'mvn clean test'
+                    sh '''
+                        echo "Running Mobile Tests..."
+                        mvn clean test
+                    '''
                 }
             }
             post {
                 always {
-                    archiveArtifacts(
-                        artifacts: 'mobile-tests/target/cucumber-reports/mobile/**/*',
-                        allowEmptyArchive: true,
-                        fingerprint: true
-                    )
+                    dir('mobile-tests') {
+                        archiveArtifacts(
+                            artifacts: 'target/cucumber-reports/**/*,target/surefire-reports/**/*',
+                            allowEmptyArchive: true,
+                            fingerprint: true
+                        )
+                        junit(
+                            allowEmptyResults: true,
+                            testResults: 'target/surefire-reports/*.xml'
+                        )
+                    }
                 }
             }
         }
@@ -89,20 +129,15 @@ pipeline {
     post {
         always {
             echo 'Test execution completed'
-
-            // Publish all Cucumber reports
-            cucumber(
-                fileIncludePattern: '**/*cucumber.json',
-                jsonReportDirectory: 'target',
-                sortingMethod: 'ALPHABETICAL',
-                buildStatus: 'UNSTABLE'
-            )
         }
         success {
             echo 'All tests completed successfully!'
         }
         failure {
             echo 'Test execution failed. Please check the logs for details.'
+        }
+        cleanup {
+            cleanWs()
         }
     }
 }
