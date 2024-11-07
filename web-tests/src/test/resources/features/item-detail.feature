@@ -13,6 +13,10 @@ Feature: Item Detail Page Functionality
     Examples:
       | userType      |
       | STANDARD_USER |
+      | LOCKED_OUT_USER |
+      | PROBLEM_USER |
+      | PERFORMANCE_GLITCH_USER |
+      | ERROR_USER |
 
 
 
@@ -25,6 +29,10 @@ Feature: Item Detail Page Functionality
     Examples:
       | userType      |
       | STANDARD_USER |
+      | LOCKED_OUT_USER |
+      | PROBLEM_USER |
+      | PERFORMANCE_GLITCH_USER |
+      | ERROR_USER |
 
 
   Scenario Outline: Add item to cart from detail page
@@ -37,6 +45,10 @@ Feature: Item Detail Page Functionality
     Examples:
       | userType      |
       | STANDARD_USER |
+      | LOCKED_OUT_USER |
+      | PROBLEM_USER |
+      | PERFORMANCE_GLITCH_USER |
+      | ERROR_USER |
 
   Scenario Outline: Remove item from cart in detail page
     Given I am logged in as "<userType>" user
@@ -49,6 +61,10 @@ Feature: Item Detail Page Functionality
     Examples:
       | userType      |
       | STANDARD_USER |
+      | LOCKED_OUT_USER |
+      | PROBLEM_USER |
+      | PERFORMANCE_GLITCH_USER |
+      | ERROR_USER |
 
   Scenario Outline: Verify specific item details display
     Given I am logged in as "<userType>" user
@@ -61,6 +77,10 @@ Feature: Item Detail Page Functionality
     Examples:
       | userType      |
       | STANDARD_USER |
+      | LOCKED_OUT_USER |
+      | PROBLEM_USER |
+      | PERFORMANCE_GLITCH_USER |
+      | ERROR_USER |
 
   Scenario Outline: Navigate back to products page
     Given I am logged in as "<userType>" user
@@ -71,3 +91,7 @@ Feature: Item Detail Page Functionality
     Examples:
       | userType      |
       | STANDARD_USER |
+      | LOCKED_OUT_USER |
+      | PROBLEM_USER |
+      | PERFORMANCE_GLITCH_USER |
+      | ERROR_USER |

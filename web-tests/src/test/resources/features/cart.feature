@@ -16,6 +16,10 @@ Feature: Shopping Cart Functionality
     Examples:
       | userType      |
       | STANDARD_USER |
+      | LOCKED_OUT_USER |
+      | PROBLEM_USER |
+      | PERFORMANCE_GLITCH_USER |
+      | ERROR_USER |
 
   Scenario Outline: Add multiple items to cart
     Given I am logged in as "<userType>" user
@@ -31,6 +35,10 @@ Feature: Shopping Cart Functionality
     Examples:
       | userType      |
       | STANDARD_USER |
+      | LOCKED_OUT_USER |
+      | PROBLEM_USER |
+      | PERFORMANCE_GLITCH_USER |
+      | ERROR_USER |
 
   Scenario Outline: Remove single item from cart
     Given I am logged in as "<userType>" user
@@ -44,6 +52,10 @@ Feature: Shopping Cart Functionality
     Examples:
       | userType      |
       | STANDARD_USER |
+      | LOCKED_OUT_USER |
+      | PROBLEM_USER |
+      | PERFORMANCE_GLITCH_USER |
+      | ERROR_USER |
 
   Scenario Outline: Remove item from multiple items in cart
     Given I am logged in as "<userType>" user
@@ -59,6 +71,10 @@ Feature: Shopping Cart Functionality
     Examples:
       | userType      |
       | STANDARD_USER |
+      | LOCKED_OUT_USER |
+      | PROBLEM_USER |
+      | PERFORMANCE_GLITCH_USER |
+      | ERROR_USER |
 
   Scenario Outline: Navigate through cart
     Given I am logged in as "<userType>" user
@@ -73,3 +89,7 @@ Feature: Shopping Cart Functionality
     Examples:
       | userType      |
       | STANDARD_USER |
+      | LOCKED_OUT_USER |
+      | PROBLEM_USER |
+      | PERFORMANCE_GLITCH_USER |
+      | ERROR_USER |

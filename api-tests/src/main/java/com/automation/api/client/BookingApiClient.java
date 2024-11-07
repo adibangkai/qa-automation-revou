@@ -8,7 +8,6 @@ import static io.restassured.RestAssured.given;
 
 public class BookingApiClient {
     private String token;
-
     /**
      * Create auth token
      */
@@ -20,15 +19,11 @@ public class BookingApiClient {
 
         Response response = given()
                 .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
                 .body(authRequest)
-                .post(EndPoints.BASE_URL + EndPoints.AUTH)
-                .then()
-                .log().all()  // Log response details
-                .extract()
-                .response();
+                .post(EndPoints.BASE_URL + EndPoints.AUTH);
+
         if (response.getStatusCode() == 200) {
-            token = response.as(AuthResponse.class).getToken();
+            token = response.jsonPath().getString("token");
         }
 
         return response;
@@ -74,6 +69,19 @@ public class BookingApiClient {
                 .extract()
                 .response();
     }
+    public Response getBookingsByName(String firstname, String lastname) {
+        return given()
+                .log().all()  // Log request details
+                .baseUri(EndPoints.BASE_URL)
+                .queryParam("firstname", firstname)
+                .queryParam("lastname", lastname)
+                .when()
+                .get("/booking")
+                .then()
+                .log().all()  // Log response details
+                .extract()
+                .response();
+    }
 
     /**
      * Create new booking
@@ -97,41 +105,73 @@ public class BookingApiClient {
 
 
     /**
-     * Update booking
+     * Update booking with exact headers as per API documentation
      */
     public Response updateBooking(int bookingId, Booking booking) {
+        if (token == null || token.isEmpty()) {
+            throw new IllegalStateException("No valid token available. Please authenticate first.");
+        }
+
         return given()
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
-                .cookie("token", token)
+                .log().all()  // Log request details
+                .header("Content-Type", "application/json")
+                .header("Accept", "application/json")
+                .header("Cookie", "token=" + token)  // Correct cookie format as per docs
                 .pathParam("id", bookingId)
                 .body(booking)
-                .put(EndPoints.BASE_URL + EndPoints.BOOKING_BY_ID);
+                .when()
+                .put(EndPoints.BASE_URL + EndPoints.BOOKING_BY_ID)
+                .then()
+                .log().all()  // Log response details
+                .extract()
+                .response();
     }
 
+
+
     /**
-     * Partial update booking
+     * Partial update booking with exact headers as per API documentation
      */
     public Response partialUpdateBooking(int bookingId, Booking booking) {
+        if (token == null || token.isEmpty()) {
+            throw new IllegalStateException("No valid token available. Please authenticate first.");
+        }
+
         return given()
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
-                .cookie("token", token)
+                .log().all()  // Log request details
+                .header("Content-Type", "application/json")
+                .header("Accept", "application/json")
+                .header("Cookie", "token=" + token)  // Correct cookie format as per docs
                 .pathParam("id", bookingId)
                 .body(booking)
-                .patch(EndPoints.BASE_URL + EndPoints.BOOKING_BY_ID);
+                .when()
+                .patch(EndPoints.BASE_URL + EndPoints.BOOKING_BY_ID)
+                .then()
+                .log().all()  // Log response details
+                .extract()
+                .response();
     }
 
     /**
-     * Delete booking
+     * Delete booking with correct header format
      */
     public Response deleteBooking(int bookingId) {
+        if (token == null || token.isEmpty()) {
+            throw new IllegalStateException("No valid token available. Please authenticate first.");
+        }
+
         return given()
-                .contentType(ContentType.JSON)
-                .accept(ContentType.ANY)  // Accept any content type for delete response
-                .cookie("token", token)
+                .log().all()  // Log request details
+                .header("Content-Type", "application/json")
+                .header("Accept", "application/json")
+                .header("Cookie", "token=" + token)  // Correct cookie format as per docs
                 .pathParam("id", bookingId)
-                .delete(EndPoints.BASE_URL + EndPoints.BOOKING_BY_ID);
+                .when()
+                .delete(EndPoints.BASE_URL + EndPoints.BOOKING_BY_ID)
+                .then()
+                .log().all()  // Log response details
+                .extract()
+                .response();
     }
 
     /**

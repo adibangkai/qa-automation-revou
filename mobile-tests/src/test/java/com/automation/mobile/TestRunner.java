@@ -1,22 +1,11 @@
 package com.automation.mobile;
 
-import io.cucumber.testng.AbstractTestNGCucumberTests;
-import io.cucumber.testng.CucumberOptions;
-import org.testng.annotations.DataProvider;
+import org.junit.platform.suite.api.*;
+import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
 
-@CucumberOptions(
-        features = "src/test/resources/features",
-        glue = "com.automation.mobile",
-        plugin = {
-                "pretty",
-                "html:target/cucumber-reports/mobile/cucumber.html",
-                "json:target/cucumber-reports/mobile/cucumber.json"
-        }
-)
-public class TestRunner extends AbstractTestNGCucumberTests {
-    @Override
-    @DataProvider(parallel = false)
-    public Object[][] scenarios() {
-        return super.scenarios();
-    }
+@Suite
+@IncludeEngines("cucumber")
+@SelectClasspathResource("features")
+@ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty, html:target/reports/cucumber.html, json:target/reports/cucumber.json")
+public class TestRunner {
 }

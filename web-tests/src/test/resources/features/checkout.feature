@@ -10,7 +10,7 @@ Feature: Checkout Functionality
     And I click checkout
     When I fill the form with:
       | firstName | lastName | postalCode |
-      | Test     | User     | 12345      |
+      | Bob     | Dylan     | 12345      |
     And I click continue
     Then I should be on checkout step two page
     When I click finish
@@ -19,6 +19,10 @@ Feature: Checkout Functionality
     Examples:
       | userType      |
       | STANDARD_USER |
+      | LOCKED_OUT_USER |
+      | PROBLEM_USER |
+      | PERFORMANCE_GLITCH_USER |
+      | ERROR_USER |
 
   Scenario Outline: Verify checkout validation
     Given I am logged in as "<userType>" user
@@ -34,6 +38,10 @@ Feature: Checkout Functionality
     Examples:
       | userType      |
       | STANDARD_USER |
+      | LOCKED_OUT_USER |
+      | PROBLEM_USER |
+      | PERFORMANCE_GLITCH_USER |
+      | ERROR_USER |
 
   Scenario Outline: Navigate back from checkout
     Given I am logged in as "<userType>" user
@@ -45,7 +53,7 @@ Feature: Checkout Functionality
     When I click checkout
     And I fill the form with:
       | firstName | lastName | postalCode |
-      | Test     | User     | 12345      |
+      | Bob     | Dylan| 12345      |
     And I click continue
     And I click cancel on step two
     Then I should be on the inventory page
@@ -53,3 +61,7 @@ Feature: Checkout Functionality
     Examples:
       | userType      |
       | STANDARD_USER |
+      | LOCKED_OUT_USER |
+      | PROBLEM_USER |
+      | PERFORMANCE_GLITCH_USER |
+      | ERROR_USER |

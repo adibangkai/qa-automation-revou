@@ -47,7 +47,7 @@ Feature: Booking API CRUD Operations
     And I have a valid auth token
     When I update the booking with the following details:
       | firstname      | lastname | totalprice | depositpaid | checkin    | checkout   | additionalneeds |
-      | Jane          | Smith    | 200        | true        | 2024-12-10 | 2024-12-15 | Lunch          |
+      | Janes          | Smith    | 200        | true        | 2024-12-10 | 2024-12-15 | Lunch          |
     Then the response status code should be 200
     And the booking should be updated successfully
     And the updated booking details should match the request
@@ -69,4 +69,4 @@ Feature: Booking API CRUD Operations
     And I have a valid auth token
     When I delete the booking
     Then the response status code should be 201
-    And the booking should be deleted successfully z
+    And the booking should be deleted successfully
