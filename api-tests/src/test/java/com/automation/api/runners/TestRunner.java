@@ -11,9 +11,8 @@ import org.junit.runner.RunWith;
         plugin = {
                 "pretty",
                 "html:target/cucumber-reports/cucumber-pretty.html",
-                "json:target/cucumber-reports/CucumberTestReport.json",
-                "junit:target/cucumber-reports/cucumber.xml",
-                "rerun:target/failed_scenarios.txt"
+                "json:target/cucumber-reports/cucumber.json",
+                "junit:target/cucumber-reports/cucumber.xml"
         },
         // Remove tags to run all scenarios
         // tags = "@smoke", 
