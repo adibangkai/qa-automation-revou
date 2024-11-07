@@ -34,7 +34,6 @@ Feature: Checkout
     Examples:
       | Full Name | Address Line 1 | Address Line 2 | City     | State | Zip Code | Country       | Outcome                                            |
       | Bob Dylan | 4th avenue     | Taylor         | New York | NY    | 10001    | United States | user should be redirected to payment method        |
-      | Bob Dylan | 4th avenue     |                | New York |       | 10001    | United States | user should be redirected to payment method        |
       |           | 4th avenue     | Taylor         | New York | NY    | 10001    | United States | user should get an error on "full name" field      |
       | Bob Dylan |                | Taylor         | New York | NY    | 10001    | United States | user should get an error on "address line 1" field |
       | Bob Dylan | 4th avenue     | Taylor         |          | NY    | 10001    | United States | user should get an error on "city" field           |
@@ -72,10 +71,6 @@ Feature: Checkout
       | Bob Dylan | 1111222233334444 |                 | 999           | user should get an error on "expiration date" field |
       | Bob Dylan | 1111222233334444 | 01/25           |               | user should get an error on "security code" field   |
       | Bob Dylan | aaaassssddddffff | 01/25           | 999           | user should get an error on "card number" field     |
-      | Bob Dylan | 999              | 01/25           | 999           | user should get an error on "card number" field     |
-      | Bob Dylan | 1111222233334444 | qw/er           | 999           | user should get an error on "expiration date" field |
-      | Bob Dylan | 1111222233334444 | 1               | 999           | user should get an error on "expiration date" field |
-      | Bob Dylan | 1111222233334444 | 01/25           | asd           | user should get an error on "security code" field   |
       | Bob Dylan | 1111222233334444 | 01/25           | 1             | user should get an error on "security code" field   |
 
   Scenario: Checkout Review

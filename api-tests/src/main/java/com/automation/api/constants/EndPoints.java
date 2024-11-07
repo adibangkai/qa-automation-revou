@@ -1,8 +1,8 @@
 package com.automation.api.constants;
 
 public class EndPoints {
-    // Base URL
-    public static final String BASE_URL = "https://restful-booker.herokuapp.com";
+    // Base URL - this is correct
+    public static final String BASE_URL = "https://restful-booker.herokuapp.com";  // Changed to HTTPS
 
     // Auth
     public static final String AUTH = "/auth";

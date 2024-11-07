@@ -123,18 +123,20 @@ public class BookingSteps {
         assertNotNull("Failed to create test booking", bookingId);
     }
 
-
     @Given("I have a valid auth token")
     public void getValidAuthToken() {
         response = apiClient.createToken("admin", "password123");
         assertEquals("Failed to get auth token", 200, response.getStatusCode());
+
+        // Enhanced token validation
         authToken = response.jsonPath().getString("token");
         assertNotNull("Auth token is null", authToken);
-        System.out.println("Generated auth token: " + authToken);  // Debug logging
+        assertFalse("Auth token is empty", authToken.trim().isEmpty());
+
+        // Log token for debugging
+        System.out.println("Generated auth token: " + authToken);
+        System.out.println("Token length: " + authToken.length());
     }
-
-
-
     // Add a new step to verify the update
     @Then("the booking should be updated successfully")
     public void verifyBookingUpdate() {
@@ -223,13 +225,36 @@ public class BookingSteps {
         try {
             Map<String, String> bookingData = dataTable.asMaps().get(0);
 
-            Booking partialBooking = new Booking();
-            partialBooking.setFirstname(bookingData.get("firstname"));
-            partialBooking.setLastname(bookingData.get("lastname"));
+            // First, get the current booking to maintain existing data
+            Response currentBooking = apiClient.getBooking(bookingId);
+            Booking existingBooking = currentBooking.as(Booking.class);
+
+            // Create a booking object maintaining existing data while updating only specified fields
+            Booking partialBooking = Booking.builder()
+                    .firstname(bookingData.get("firstname"))
+                    .lastname(bookingData.get("lastname"))
+                    .totalprice(existingBooking.getTotalprice())
+                    .depositpaid(existingBooking.getDepositpaid())
+                    .bookingdates(existingBooking.getBookingdates())
+                    .additionalneeds(existingBooking.getAdditionalneeds())
+                    .build();
+
+            System.out.println("Current booking ID: " + bookingId);
+            System.out.println("Auth token present: " + (apiClient.getToken() != null));
+            System.out.println("Partial update request payload: " + partialBooking);
 
             response = apiClient.partialUpdateBooking(bookingId, partialBooking);
-            testBooking = partialBooking; // Store for verification
+
+            if (response.getStatusCode() != 200) {
+                System.err.println("Partial update failed with status: " + response.getStatusCode());
+                System.err.println("Response headers: " + response.getHeaders());
+                System.err.println("Response body: " + response.getBody().asString());
+            }
+
+            testBooking = partialBooking;
         } catch (Exception e) {
+            System.err.println("Partial update failed with exception: " + e.getMessage());
+            e.printStackTrace();
             fail("Failed to partially update booking: " + e.getMessage());
         }
     }
@@ -337,40 +362,34 @@ public class BookingSteps {
     }
     @Then("the booking should be partially updated")
     public void the_booking_should_be_partially_updated() {
-        if (response.getStatusCode() != 200) {
-            throw new AssertionError("Partial update failed. Expected status code 200 but got " +
-                    response.getStatusCode() + "\nResponse body: " + response.getBody().asString());
-        }
+        assertEquals("Partial update failed", 200, response.getStatusCode());
 
-        // Verify we can still retrieve the booking
-        Response getResponse = apiClient.getBooking(bookingId);
-        if (getResponse.getStatusCode() != 200) {
-            throw new AssertionError("Failed to retrieve partially updated booking. Status code: " +
-                    getResponse.getStatusCode());
-        }
+        // Verify the response Content-Type
+        String contentType = response.getHeader("Content-Type");
+        assertTrue("Invalid content type: " + contentType,
+                contentType != null && contentType.contains("application/json"));
     }
 
     @Then("the modified fields should match the request")
     public void the_modified_fields_should_match_the_request() {
-        // Get the current state of the booking
         Response getResponse = apiClient.getBooking(bookingId);
-        Booking updatedBooking = getResponse.as(Booking.class);
+        assertEquals("Failed to retrieve updated booking", 200, getResponse.getStatusCode());
 
-        // Check only the fields that were included in the partial update
-        if (testBooking.getFirstname() != null &&
-                !testBooking.getFirstname().equals(updatedBooking.getFirstname())) {
-            throw new AssertionError("First name wasn't updated correctly. Expected: " +
-                    testBooking.getFirstname() + " but got: " + updatedBooking.getFirstname());
+        try {
+            Booking updatedBooking = getResponse.as(Booking.class);
+
+            // Verify only the fields that were updated
+            assertEquals("First name wasn't updated correctly",
+                    testBooking.getFirstname(), updatedBooking.getFirstname());
+            assertEquals("Last name wasn't updated correctly",
+                    testBooking.getLastname(), updatedBooking.getLastname());
+
+            // Log successful verification
+            System.out.println("Successfully verified partial update - modified fields match the request");
+        } catch (Exception e) {
+            fail("Failed to verify booking update: " + e.getMessage() +
+                    "\nResponse body: " + getResponse.getBody().asString());
         }
-
-        if (testBooking.getLastname() != null &&
-                !testBooking.getLastname().equals(updatedBooking.getLastname())) {
-            throw new AssertionError("Last name wasn't updated correctly. Expected: " +
-                    testBooking.getLastname() + " but got: " + updatedBooking.getLastname());
-        }
-
-        // Additional verification can be added for other fields that might be partially updated
-        System.out.println("Successfully verified partial update - modified fields match the request");
     }
 }
 

@@ -138,16 +138,16 @@ public class BookingApiClient {
         }
 
         return given()
-                .log().all()  // Log request details
+                .log().all()
                 .header("Content-Type", "application/json")
                 .header("Accept", "application/json")
-                .header("Cookie", "token=" + token)  // Correct cookie format as per docs
+                .header("Cookie", "token=" + token)
                 .pathParam("id", bookingId)
                 .body(booking)
                 .when()
                 .patch(EndPoints.BASE_URL + EndPoints.BOOKING_BY_ID)
                 .then()
-                .log().all()  // Log response details
+                .log().all()
                 .extract()
                 .response();
     }
@@ -172,6 +172,9 @@ public class BookingApiClient {
                 .log().all()  // Log response details
                 .extract()
                 .response();
+    }
+    public String getToken() {
+        return token;
     }
 
     /**
