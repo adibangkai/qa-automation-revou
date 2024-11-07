@@ -29,17 +29,22 @@ pipeline {
             when { expression { params.RUN_API_TESTS } }
             steps {
                 dir('api-tests') {
-                    sh 'mvn clean test'
+                    sh '''
+                        echo "Running API Tests..."
+                        mvn clean test
+                    '''
                 }
             }
             post {
                 always {
-                    archiveArtifacts(
-                        artifacts: 'api-tests/target/api/cucumber-reports/**/*',
-                        allowEmptyArchive: true,
-                        fingerprint: true
-                    )
-                    junit 'api-tests/target/api/cucumber-reports/cucumber.xml'
+                    dir('api-tests') {
+                        archiveArtifacts(
+                            artifacts: 'target/cucumber-reports/**/*,target/surefire-reports/**/*',
+                            allowEmptyArchive: true,
+                            fingerprint: true
+                        )
+                        junit 'target/surefire-reports/*.xml'
+                    }
                 }
             }
         }
