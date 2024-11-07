@@ -13,7 +13,8 @@ import org.testng.annotations.Parameters;
         plugin = {
                 "pretty",
                 "html:target/cucumber-reports/cucumber-pretty.html",
-                "json:target/cucumber-reports/CucumberTestReport.json"
+                "json:target/cucumber-reports/cucumber.json",
+                "junit:target/cucumber-reports/cucumber.xml"
         },
         monochrome = false
 )
