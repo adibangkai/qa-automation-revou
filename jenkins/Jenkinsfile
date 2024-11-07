@@ -93,6 +93,14 @@ pipeline {
                             allowEmptyResults: true,
                             testResults: 'target/surefire-reports/*.xml'
                         )
+       // Publish Cucumber reports
+                        cucumber(
+                            buildStatus: 'UNSTABLE',
+                            reportTitle: 'API Test Report',
+                            fileIncludePattern: '**/cucumber.json',
+                            jsonReportDirectory: 'target/cucumber-reports',
+                            sortingMethod: 'ALPHABETICAL'
+                        )
                     }
                 }
             }
