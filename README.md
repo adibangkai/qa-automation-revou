@@ -1,10 +1,11 @@
-# Test Automation Implementation Summary Report
+# Summary Test Automation
 
 ## Test Plan Overview
 
-### 1. Functional Test Areas
+### 1. Area Pengujian Fungsional
 
 #### A. API Testing (Restful-booker)
+
 - **Authentication Module**
   - Token generation
   - Authentication validation
@@ -15,6 +16,7 @@
   - Response validation
 
 #### B. Web Application Testing (SauceDemo)
+
 - **Authentication Module**
   - Login functionality
   - User role validation
@@ -27,6 +29,7 @@
   - Navigation flow
 
 #### C. Mobile Testing (Android-MyDemoAppRN)
+
 - **Authentication Module**
   - Login/Logout
   - Session management
@@ -37,139 +40,168 @@
 
 ## Implementation Summary
 
-### 1. API Testing Implementation (REST Assured)
-![Screenshot 2024-11-07 081828](https://github.com/user-attachments/assets/4142fabd-8b3d-4f84-ac86-8a361b9a8919)
+### 1. Implementasi API Testing (REST Assured)
 
-#### Achievements
-- Successfully implemented 8 test scenarios
-- 75% pass rate (6 passed, 2 failed)
-- Complete coverage of CRUD operations
-- Implemented authentication token handling
+#### Pencapaian
 
-#### Issues
-- Status code inconsistencies in Create (200 vs 201) and Delete (201 vs 200) operations
-- Response payload validation in failed scenarios needed enhancement
+- Berhasil mengimplementasikan 8 test scenario
+- Pass rate 75% (6 passed, 2 failed)
+- Cakupan lengkap untuk operasi CRUD
+- Berhasil mengimplementasikan authentication token handling
 
-### 2. Web Application Testing Implementation (Selenium WebDriver)
-![Screenshot 2024-11-07 090506](https://github.com/user-attachments/assets/db3b0e75-7775-4f3a-8f98-a65a824a6b4c)
+#### Masalah
 
-#### Achievements
-- Implemented 90 test scenarios across 5 features
-- 67.78% overall pass rate
-- Comprehensive coverage of core e-commerce flows
+- Ketidakkonsistenan status code pada operasi Create (200 vs 201) dan Delete (201 vs 200)
+- Response payload validation pada skenario yang gagal membutuhkan peningkatan
 
-#### Key Statistics
-- Total Features: 5
-- Total Scenarios: 90
-- Total Steps: 570
-- Overall Duration: 20:01.173
+### 2. Implementasi Web Application Testing (Selenium WebDriver)
 
-#### Feature-wise Success Rates
-1. Login Functionality: 80%
-2. Shopping Cart Functionality: 80%
-3. Checkout Functionality: 60%
-4. Inventory Page Functionality: 66.67%
-5. Item Detail Page Functionality: 60%
+#### Pencapaian
 
-#### Issues
-- LOCKED_OUT_USER tests consistently failing
-- Problem User interface inconsistencies
-- Navigation flow issues between inventory and checkout
-- Data synchronization problems in cart management
+- Mengimplementasikan 90 test scenario untuk 5 fitur
+- Pass rate keseluruhan 67.78%
+- Cakupan menyeluruh untuk alur e-commerce utama
 
-### 3. Mobile Testing Implementation (Appium)
-![summary](https://github.com/user-attachments/assets/d5a63150-9955-41a6-8c6a-fdd4ec52d5b3)
+#### Statistik Utama
 
-#### Achievements
-- Implemented 29 test scenarios
-- 90% pass rate (26 passed, 3 failed)
-- Comprehensive coverage of core mobile app functions
+| Metrik             | Nilai     |
+| ------------------ | --------- |
+| Total Fitur        | 5         |
+| Total Skenario     | 90        |
+| Total Steps        | 570       |
+| Durasi Keseluruhan | 20:01.173 |
 
-#### Key Statistics
-- Total Tests: 29
-- Duration: 14 minutes 47 seconds
-- Framework: cucumber-jvm 7.11.0
+#### Tingkat Keberhasilan per Fitur
 
-#### Issues
-- App state reset issues causing TimeoutException
-- Cart persistence problems after app restart
-- Checkout process instability
+| Fitur                          | Success Rate |
+| ------------------------------ | ------------ |
+| Login Functionality            | 80%          |
+| Shopping Cart Functionality    | 80%          |
+| Checkout Functionality         | 60%          |
+| Inventory Page Functionality   | 66.67%       |
+| Item Detail Page Functionality | 60%          |
 
-### 4. CI/CD Integration (Jenkins)
+#### Masalah
 
-#### Implementation Details
-- Successfully integrated all API & Web suites with Jenkins
-- for appium test currenly run on local
+- Test LOCKED_OUT_USER selalu gagal
+- Inkonsistensi interface pada Problem User
+- Masalah navigation flow antara inventory dan checkout
+- Masalah sinkronisasi data dalam cart management
+- Performance issue pada user 'glitch'
+
+### 3. Implementasi Mobile Testing (Appium)
+
+#### Pencapaian
+
+- Mengimplementasikan 29 test scenario
+- Pass rate 90% (26 passed, 3 failed)
+- Cakupan menyeluruh untuk fungsi utama aplikasi mobile
+
+#### Statistik Utama
+
+| Metrik      | Nilai               |
+| ----------- | ------------------- |
+| Total Tests | 29                  |
+| Durasi      | 14 menit 47 detik   |
+| Framework   | cucumber-jvm 7.11.0 |
+
+#### Masalah
+
+- Ketidakstabilan proses checkout
+- validasi gagal di proses checkout
+
+### 4. Integrasi CI/CD (Jenkins)
+
+- Berhasil mengintegrasikan semua suite API & Web dengan Jenkins
+- Untuk test Appium saat ini masih berjalan di local
 
 ## Critical Issues and Recommendations
 
 ### 1. API Testing
-**Recommendations:**
-- Align HTTP status codes with REST standards
-- Enhance response payload validation
-- Add retry mechanism for intermittent failures
+![Screenshot 2024-11-07 081828](https://github.com/user-attachments/assets/4142fabd-8b3d-4f84-ac86-8a361b9a8919)
+
+#### Rekomendasi
+
+- Sesuaikan HTTP status code dengan standar REST
+- Tingkatkan response payload validation
 
 ### 2. Web Testing
-**Critical Issues:**
-1. User authentication stability
-2. Data consistency across pages
-3. Navigation flow reliability
+![Screenshot 2024-11-07 090506](https://github.com/user-attachments/assets/db3b0e75-7775-4f3a-8f98-a65a824a6b4c)
 
-**Recommendations:**
-- Implement robust wait strategies
-- Add data validation checks
-- Enhance error handling for authentication
-- Implement proper page transition handling
+#### Masalah Kritis
+
+- Stabilitas user authentication
+- Konsistensi data antar halaman
+- Keandalan navigation flow
+- Performa lamban di user 'glitch'
+
+#### Rekomendasi
+
+- Tambahkan pemeriksaan validasi data
+- Tingkatkan penanganan error untuk authentication
+- Implementasikan penanganan transisi halaman yang tepat
 
 ### 3. Mobile Testing
-**Critical Issues:**
-1. App state management
-2. Cart persistence
-3. Checkout stability
+![summary](https://github.com/user-attachments/assets/d5a63150-9955-41a6-8c6a-fdd4ec52d5b3)
 
-**Recommendations:**
-- Increase timeout settings for state reset
-- Implement robust error handling
-- Add detailed logging for troubleshooting
-- Implement retry mechanism for flaky tests
+#### Masalah Kritis
 
-## Overall Production Readiness Assessment
+- Pengelolaan app state
+- Persistensi cart
+- Stabilitas checkout
+
+#### Rekomendasi
+
+- Tingkatkan pengaturan timeout untuk reset state
+- Implementasikan penanganan error yang robust
+- Tambahkan logging detail untuk troubleshooting
+- Implementasikan mekanisme retry untuk flaky tests
+
+## Penilaian Kesiapan Produksi
 
 ### API Testing
+
 **Status: READY FOR PRODUCTION**
-- Minor status code inconsistencies
-- Core functionality working as expected
+
+- Ketidakkonsistenan minor pada status code
+- Fungsi inti berjalan sesuai harapan
 
 ### Web Testing
+
 **Status: NOT READY FOR PRODUCTION**
-- High failure rate (32.22%)
-- Critical user flows unstable
-- Core functionality issues
+
+- Tingkat kegagalan tinggi (32.22%)
+- Alur pengguna kritis tidak stabil
+- Masalah pada fungsi inti
 
 ### Mobile Testing
+
 **Status: NOT READY FOR PRODUCTION**
-- Critical state management issues
-- Cart persistence problems
-- Checkout process instability
 
-## Next Steps
+- Ketidakstabilan proses checkout
+- validasi gagal di proses checkout
+  
+## Langkah Selanjutnya
 
-1. **Immediate Actions**
-   - Fix critical authentication issues in web testing
-   - Resolve app state management in mobile testing
-   - Align API status codes with standards
+### Tindakan Segera
 
-2. **Short-term Improvements**
-   - Implement robust error handling
-   - Add comprehensive logging
-   - Enhance test stability
+- Perbaiki masalah kritis authentication pada web testing
+- Selesaikan masalah validasi checkout pada mobile testing
+- Sesuaikan API status code dengan standar
 
-3. **Long-term Recommendations**
-   - Implement continuous monitoring
-   - Add performance testing
-   - Enhance test coverage
-   - Implement automated reporting
+### Peningkatan Jangka Pendek
 
-## Conclusion
+- Implementasikan penanganan error yang robust
+- Tambahkan logging komprehensif
+- Tingkatkan stabilitas test
 
-While the API testing shows promise for production deployment, both web and mobile implementations require significant improvements before production deployment. The primary focus should be on resolving critical issues in authentication, state management, and data consistency across all platforms.
+### Rekomendasi Jangka Panjang
+
+- Implementasikan continuous monitoring
+- Tambahkan performance testing
+- Tingkatkan test coverage
+- Implementasikan automated reporting
+
+## Kesimpulan
+
+Meskipun API testing menunjukkan prospek untuk deployment produksi, implementasi web dan mobile masih memerlukan peningkatan signifikan sebelum deployment produksi. Fokus utama harus pada penyelesaian masalah kritis dalam authentication, state management, dan konsistensi data di semua platform.
